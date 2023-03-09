@@ -16,21 +16,13 @@ import java.util.List;
 public class GreetingController {
 
     public static final String GREETING = "/greeting";
-
-    @Value("${exemple.valor}")
-    String valor;
-
-    private List<String> llista;
     @Autowired
-    private GreetingController(List<String> llista){
-        this.llista = llista;
-    }
+    GreetingService greetingService;
 
     @GetMapping
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        llista.add(name);
-        model.addAttribute("names", llista);
-        model.addAttribute("valor",valor);
+        greetingService.addMessage(name);
+        model.addAttribute("names", greetingService.getMessages());
         return "greeting";
     }
 
